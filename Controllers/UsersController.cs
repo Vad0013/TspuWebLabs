@@ -10,13 +10,20 @@ namespace TspuWebLabs.Controllers
     [Route("api/[controller]")]
     public class UsersController : Controller
     {
+        private IUsersRepositoryInMemory usersRepository;
+
+        public UsersController(IUsersRepositoryInMemory usersRepository)
+        {
+            this.usersRepository = usersRepository;
+        }
+
         [HttpGet]
         public IActionResult Get([FromQuery] int? id)
         {
-            if (id == null) return Ok(UsersRepository.GetData());
+            if (id == null) return Ok(usersRepository.GetData());
             else
             {
-                if (UsersRepository.TryGet(id.Value, out User user) == true)
+                if (usersRepository.TryGet(id.Value, out User user) == true)
                     return Ok(user);
                 else return BadRequest($"User ID = {id.Value} not found");
             }
@@ -25,14 +32,14 @@ namespace TspuWebLabs.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] AddUserContract addUserContract)
         {
-            UsersRepository.Add(addUserContract.Name, addUserContract.Login, addUserContract.Password);
+            usersRepository.Add(addUserContract.Name, addUserContract.Login, addUserContract.Password);
             return Ok();
         }
 
         [HttpPut]
         public IActionResult Put([FromBody] EditUserContract editUserContract)
         {
-            if (UsersRepository.TryEdit(editUserContract.Id, editUserContract.Name, editUserContract.Login) == true)
+            if (usersRepository.TryEdit(editUserContract.Id, editUserContract.Name, editUserContract.Login) == true)
                 return Ok();
             else return BadRequest($"User ID = {editUserContract.Id} not found");
 
