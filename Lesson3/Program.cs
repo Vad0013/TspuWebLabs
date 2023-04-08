@@ -1,4 +1,6 @@
-using TspuWebLabs.Repositories;
+using DatabaseAPI;
+using DatabaseAPI.Repositories.User;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,8 +11,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<MemoryProvider>();
-builder.Services.AddScoped<IUsersRepositoryInMemory, UsersRepositoryInMemory>();
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql("Host=localhost;Port=5432;Database=LessonDataBase;Username=postgres;Password=admin"));
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 
