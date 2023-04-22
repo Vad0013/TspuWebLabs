@@ -1,4 +1,5 @@
 using DatabaseAPI;
+using DatabaseAPI.Repositories.Product;
 using DatabaseAPI.Repositories.User;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,9 +13,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql("Host=localhost;Port=5432;Database=LessonDataBase;Username=postgres;Password=admin"));
+    options.UseNpgsql("Host=localhost;Port=5432;Database=postgres;Username=postgres;Password=7"));
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 var app = builder.Build();
 
