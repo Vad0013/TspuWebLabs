@@ -12,6 +12,7 @@ namespace DatabaseAPI
 
         public DbSet<DBUser> Users { get; set; }
         public DbSet<DBProduct> Products { get; set; }
+        public DbSet<DBUserPurchase> Purchases { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -36,6 +37,17 @@ namespace DatabaseAPI
                 dbProduct.Property(product => product.Description).HasColumnName("description");
                 dbProduct.Property(product => product.Price).HasColumnName("price");
                 dbProduct.Property(product => product.IsDeleted).HasColumnName("is_deleted");
+                
+            });
+
+            modelBuilder.Entity<DBUserPurchase>(dbUserPurchase =>
+            {
+                dbUserPurchase.ToTable("user_purchases");
+                dbUserPurchase.HasKey(purchase => purchase.Id);
+                dbUserPurchase.Property(purchase =>  purchase.Id).HasColumnName("id");
+                dbUserPurchase.Property(purchase => purchase.UserId).HasColumnName("user_id");
+                dbUserPurchase.Property(purchase => purchase.ProductId).HasColumnName("product_id");
+                dbUserPurchase.Property(purchase => purchase.Price).HasColumnName("price");
             });
         }
     }

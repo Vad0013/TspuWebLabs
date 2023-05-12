@@ -1,5 +1,6 @@
 using DatabaseAPI;
 using DatabaseAPI.Repositories.Product;
+using DatabaseAPI.Repositories.Purchase;
 using DatabaseAPI.Repositories.User;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,6 +18,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IUserPurchaseRepository, UserPurchaseRepository>();
 
 var app = builder.Build();
 
