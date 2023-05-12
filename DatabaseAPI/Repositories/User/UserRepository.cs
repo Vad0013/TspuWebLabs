@@ -34,6 +34,12 @@ namespace DatabaseAPI.Repositories.User
             return result;
         }
 
+        public async Task<DBUser> Get(string login)
+        {
+            ICollection<DBUser> result = await dbContext.Users.ToArrayAsync();
+            return result.FirstOrDefault(result => result.Login == login);
+        }
+
         public async Task Add(DBUser user)
         {
             await dbContext.Users.AddAsync(user);
